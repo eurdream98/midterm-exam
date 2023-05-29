@@ -29,7 +29,7 @@ public class CategoryController {
         //    (조건 3) 제품분류 목록이 없는 경우, Print 객체를 통해 조회 결과가 없다는 오류 메세지를 출력하세요.
         List<CategoryDTO> categoryList = categoryService.selectCategoryList(parameter);
         if (!categoryList.isEmpty()) {
-            categoryPrint.printTeamList(categoryList);
+            categoryPrint.printTeamList(categoryList,parameter);
         } else {
             categoryPrint.printErrorMessage("selectList");
         }
