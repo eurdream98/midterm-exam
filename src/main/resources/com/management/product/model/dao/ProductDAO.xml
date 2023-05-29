@@ -4,7 +4,97 @@
 <!-- * 주석을 지우고 각각 알맞은 태그를 활용하여 내용을 작성하세요. -->
 
 <!-- 1. namesapce 설정을 알맞게 지정하세요. -->
-<mapper namespace="">
+<mapper namespace="com.management.product.model.dao.ProductDAO.xml">
+
+    <resultMap type="com.management.product.model.dao.ProductDAO.xml" id="ResultMap">
+        <id property="code" column="PRODUCT_CODE"/>
+        <result property="name" column="PRODUCT_NAME"/>
+        <result property="origincost" column="ORIGIN_COST"/>
+        <result property="releasedate" column="RELEASE_DATE"/>
+        <result property="discountrate" column="DISCOUNT_RATE"/>
+        <result property="salesquantity" column="SALES_QUANTITY"/>
+        <result property="productionstatus" column="PRODUCTION_STATUS"/>
+        <result property="stockquantity" column="STOCK_QUANTITY"/>
+        <result property="categorycode" column="CATEGORY_CODE"/>
+    </resultMap>
+
+    <select id="selectAllMenu" resultMap="ResultMap">
+        SELECT PRODUCT_CODE
+             , PRODUCT_NAME
+             , ORIGIN_COST
+             , RELEASE_DATE
+             , DISCOUNT_RATE
+        , SALES_QUANTITY
+        , PRODUCTION_STATUS
+        , STOCK_QUANTITY
+        , CATEGORY_CODE
+        FROM PRODUCT_INFO
+        WHERE PRODUCTION_STATUS = 'Y'
+        ORDER BY PRODUCT_CODE
+    </select>
+
+    <select id="selectMenuByCode" parameterType="_int" resultMap="menuResultMap">
+        SELECT PRODUCT_CODE
+             , PRODUCT_NAME
+             , ORIGIN_COST
+             , RELEASE_DATE
+             , DISCOUNT_RATE
+             , SALES_QUANTITY
+             , PRODUCTION_STATUS
+             , STOCK_QUANTITY
+             , CATEGORY_CODE
+        FROM PRODUCT_INFO
+        WHERE
+            (#{conditionType} = 'product_name' AND product_name LIKE CONCAT('%', #{keyword}, '%'))
+           OR (#{conditionType} = 'store_type' AND (store_type = '백화점' AND discount_rate = 0 OR store_type = '아울렛' AND discount_rate >= 1))
+           OR (#{conditionType} = 'new_arrival' AND YEAR(production_date) = YEAR(CURRENT_DATE) AND MONTH(production_date) = MONTH(CURRENT_DATE));
+    </select>
+
+    <insert id="insertMenu" parameterType="com.section03.remix.MenuDTO">
+        INSERT INTO PRODUCT_INFO (
+            PRODUCT_CODE,
+            PRODUCT_NAME,
+            ORIGIN_COST,
+            RELEASE_DATE,
+            DISCOUNT_RATE,
+            SALES_QUANTITY,
+            PRODUCTION_STATUS,
+            STOCK_QUANTITY,
+            CATEGORY_CODE
+        )
+        VALUES (
+                   #{code},
+                   #{name},
+                   #{originCost},
+                   #{releaseDate},
+                   #{discountRate},
+                   #{salesQuantity},
+                   #{productionStatus},
+                   #{stockQuantity},
+                   #{categoryCode}
+               )
+    </insert>
+
+    <update id="updateMenu" parameterType="com.section03.remix.MenuDTO">
+        UPDATE PRODUCT_INFO
+        <set>
+            <if test="name != null">PRODUCT_NAME = #{name},</if>
+            <if test="originCost != null">ORIGIN_COST = #{originCost},</if>
+            <if test="releaseDate != null">RELEASE_DATE = #{releaseDate},</if>
+            <if test="discountRate != null">DISCOUNT_RATE = #{discountRate},</if>
+            <if test="salesQuantity != null">SALES_QUANTITY = #{salesQuantity},</if>
+            <if test="productionStatus != null">PRODUCTION_STATUS = #{productionStatus},</if>
+            <if test="stockQuantity != null">STOCK_QUANTITY = #{stockQuantity},</if>
+            <if test="categoryCode != null">CATEGORY_CODE = #{categoryCode},</if>
+        </set>
+        WHERE PRODUCT_CODE = #{code}
+    </update>
+
+    <delete id="deleteMenu" parameterType="_int">
+        DELETE FROM PRODUCT_INFO
+        WHERE PRODUCT_CODE = #{code}
+    </delete>
+</mapper>
 
     <!-- 2. ProductDTO type의 resultMap을 설정하세요. -->
 
@@ -28,4 +118,4 @@
     <!-- 7. 제품 정보를 삭제하는 쿼리를 작성하세요.
             (쿼리id) deleteProduct -->
 
-</mapper>
+

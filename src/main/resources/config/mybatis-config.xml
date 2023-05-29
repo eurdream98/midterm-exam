@@ -3,5 +3,18 @@
 <configuration>
 
     <!-- 주석을 지우고 mybatis 설정 파일 내용을 작성하세요. -->
-
+    <environments default="dev">
+        <environment id="dev">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost/productcompany"/>
+                <property name="username" value="sahmyook"/>
+                <property name="password" value="sahmyook"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="com/section01/xmlconfig/menu-mapper.xml"/>
+    </mappers>
 </configuration>

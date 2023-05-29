@@ -4,6 +4,8 @@ import com.management.category.model.dto.CategoryDTO;
 
 import java.util.Map;
 
+import static java.awt.SystemColor.menu;
+
 public class CategoryDAOProvider {
 
     // * 주석을 지우고 Provider 활용하여 내용을 작성하세요.
@@ -16,7 +18,7 @@ public class CategoryDAOProvider {
         //          예를 들어, PRODUCT_INFO 테이블에 제품분류가 A인 제품이 10개, B인 제품이 4개, C인 제품이 13개 있다면
         //          제품분류 순위는 C > A > B 입니다. (단, 제품 갯수가 0개인 제품분류는 목록에 출력되지 않아도 됩니다.)
         //    아래 작성된 return null은 과제 툴 오류를 제거하고자 임의 작성하였으니 지우고 로직을 작성하세요.
-        return null;
+        return sqlSession.select
 
     }
 
@@ -24,7 +26,7 @@ public class CategoryDAOProvider {
 
         // 2. Provider를 활용하여 제품분류를 등록하는 코드를 작성하세요.
         //    아래 작성된 return null은 과제 툴 오류를 제거하고자 임의 작성하였으니 지우고 로직을 작성하세요.
-        return null;
+        return sqlSession.insert(category);
 
     }
 
